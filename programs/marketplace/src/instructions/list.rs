@@ -24,6 +24,7 @@ pub struct List<'info> {
         associated_token::mint = maker_mint,
     )]
     maker_ata: Box<InterfaceAccount<'info, TokenAccount>>,
+    // listing account's associated token account
     #[account(
         init_if_needed,
         payer = maker,

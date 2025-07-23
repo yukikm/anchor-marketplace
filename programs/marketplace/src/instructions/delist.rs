@@ -22,6 +22,7 @@ pub struct Delist<'info> {
     maker_ata: Box<InterfaceAccount<'info, TokenAccount>>,
     #[account(
         mut,
+        // listing account is automatically closed and funds are transferred to the maker
         close = maker,
         seeds = [marketplace.key().as_ref(), maker_mint.key().as_ref()],
         bump = listing.bump,
@@ -39,6 +40,7 @@ pub struct Delist<'info> {
 
 impl<'info> Delist<'info> {
     pub fn withdraw_nft(&mut self) -> Result<()> {
+        // listing account
         let seeds = &[
             &self.marketplace.key().to_bytes()[..],
             &self.maker_mint.key().to_bytes()[..],

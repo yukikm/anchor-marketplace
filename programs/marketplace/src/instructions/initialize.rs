@@ -17,6 +17,10 @@ pub struct Initialize<'info> {
         bump
     )]
     marketplace: Box<Account<'info, Marketplace>>,
+    // if large size accounts are used, use Box to avoid stack overflow
+    // https://solana.stackexchange.com/questions/4926/when-and-why-to-use-boxed-accounts
+
+    // reward mint account
     #[account(
         init,
         seeds = [b"rewards", marketplace.key().as_ref()],
@@ -26,6 +30,7 @@ pub struct Initialize<'info> {
         mint::authority = marketplace,
     )]
     rewards_mint: Box<InterfaceAccount<'info, Mint>>,
+    // manage treasury assets in the marketplace
     #[account(
         seeds = [b"treasury", marketplace.key().as_ref()],
         bump,

@@ -71,6 +71,11 @@ impl<'info> Purchase<'info> {
 
         let cpi_ctx = CpiContext::new(self.system_program.to_account_info(), accounts);
 
+        // calculate the purchase fee
+        // fee is in basis points, so we divide by 10000 to get the actual
+        // listing.price = 1,000,000 lamports
+        // marketplace.fee = 200 (2%)
+        // amount = 1,000,000 * 200 / 10000 = 20,000 lamports
         let amount = self
             .listing
             .price
